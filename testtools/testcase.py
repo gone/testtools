@@ -294,6 +294,13 @@ class TestCase(unittest.TestCase):
             return False
         return self.__dict__ == other.__dict__
 
+    def __hash__(self):
+        hashfn = getattr(unittest.TestCase, '__hash__', None)
+        if hashfn is not None:
+            return hashfn(self)
+        return id(self)
+
+
     def __repr__(self):
         # We add id to the repr because it makes testing testtools easier.
         return "<%s id=0x%0x>" % (self.id(), id(self))
